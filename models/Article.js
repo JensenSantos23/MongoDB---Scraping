@@ -1,47 +1,39 @@
 var mongoose = require("mongoose");
 
+// Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
-
   title: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
-
+  
   link: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
-
-  summary: {
-    type: String,
-    required: false,
-    unique: false
-  },
-
-  byline: {
-    type: String,
-    required: false,
-    unique: false
-  },
-
-  isSaved: {
+  
+    summary: {
+      type: String,
+      required: true
+    },
+  
+ 
+ 
+  note: [ {
+    type: Schema.Types.ObjectId,
+    ref: "Note"
+  }],
+  
+  saved: {
     type: Boolean,
-    default: false,
-    required: false,
-    unique: false
+    default: false
   },
-  // `note` is an object that stores a Note id
-  // The ref property links the ObjectId to the Note model
-  // This allows us to populate the Article with an associated Note
-  note: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'Note'}],
-  }
 });
 
+// This creates our model from the above schema, using mongoose's model method
 var Article = mongoose.model("Article", ArticleSchema);
 
-module.exports = Article; //exporting Article
+// Export the Article model
+module.exports = Article;
